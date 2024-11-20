@@ -10,7 +10,16 @@ short_title_map = {
     "Chelsea": "CHE"
 }
 
-# Function to fetch matches between two teams
+# Function to fetch matches between two teams across multiple seasons
+def get_team_matches_across_seasons(team1, team2, seasons):
+    matches = []
+    for season in seasons:
+        # Fetch matches for the current season
+        season_matches = get_team_matches(team1, team2, season=season)
+        matches.extend(season_matches)
+    return matches
+
+# Function to fetch matches between two teams in a season
 def get_team_matches(team1, team2, season="2023"):
     # Fetch all matches for both teams
     team1_matches = understat.team(team=team1).get_match_data(season=season)
@@ -34,9 +43,10 @@ def main():
     # Define the teams
     team1 = "Liverpool"
     team2 = "Chelsea"
+    seasons = [str(year) for year in range(2017, 2024)]  # Seasons from 2017 to 2023
 
-    # Fetch matches between the two teams
-    matches = get_team_matches(team1, team2, season="2023")
+    # Fetch matches across all seasons
+    matches = get_team_matches_across_seasons(team1, team2, seasons)
     print(f"Matches between {team1} and {team2}: {matches}")
 
     if not matches:
