@@ -52,8 +52,8 @@ def main():
     chelsea = Chelsea()
 
     # Define seasons
-    current_season = "2023"
-    last_season = "2022"
+    current_season = "2024"
+    last_season = "2023"
     all_seasons = [str(year) for year in range(2017, 2024)]
 
     # Fetch all matches for Liverpool and Chelsea
