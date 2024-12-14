@@ -2,7 +2,6 @@ import asyncio
 from understat import Understat
 import aiohttp
 
-
 async def fetch_goalkeeper_stats(team_name, season, num_matches=None):
     """
     Fetch goalkeeper stats for a specific team and season.
