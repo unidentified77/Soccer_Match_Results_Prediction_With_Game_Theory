@@ -9,7 +9,6 @@ from team_utils import (
     fill_last_season_avg_xg,
     fill_total_avg_xg,
 )
-from player_utils import get_goalkeeper_stats
 
 # Initialize Understat API Client
 understat = UnderstatClient()
@@ -102,16 +101,6 @@ def main():
     print(f"This Season Avg xG: {chelsea.this_season_avg_xg:.2f}")
     print(f"Last Season Avg xG: {chelsea.last_season_avg_xg:.2f}")
     print(f"Total Avg xG: {chelsea.total_avg_xg:.2f}")
-
-    # Fetch and print goalkeeper stats for Liverpool and Chelsea
-    print("\nGoalkeeper Stats:")
-    for team in [liverpool, chelsea]:
-        gk_stats = get_goalkeeper_stats(team.name, current_season, num_matches=5)
-        print(f"\n{team.name} Goalkeeper Stats (Last 5 Matches):")
-        for gk_id, stats in gk_stats.items():
-            print(f"Name: {stats['name']}")
-            print(f"Average Goals Conceded: {stats['average_goals_conceded']:.2f}")
-            print(f"Average Opponent xG: {stats['average_opponent_xG']:.2f}")
 
 if __name__ == "__main__":
     main()
