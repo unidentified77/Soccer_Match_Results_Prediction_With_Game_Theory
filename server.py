@@ -18,6 +18,7 @@ class Player:
     def __init__(
         self,
         player_name,
+        player_id,
         avg_shots=0.0,
         avg_fouls=0.0,
         avg_yellow_cards=0.0,
@@ -26,8 +27,10 @@ class Player:
         avg_rating=0.0,
         position="",
         avg_xg=0.0,
+        avg_goals=0.0
     ):
         self.player_name = player_name
+        self.player_id = player_id
         self.avg_shots = avg_shots
         self.avg_fouls = avg_fouls
         self.avg_yellow_cards = avg_yellow_cards
@@ -36,6 +39,7 @@ class Player:
         self.avg_rating = avg_rating
         self.position = position
         self.avg_xg = avg_xg
+        self.avg_goals = avg_goals
 
 # Define Roster class
 class Roster:
@@ -77,13 +81,33 @@ class Team:
             print(f"Error fetching player data for {self.name} in season {season}: {e}")
             return []
 
-    # Extract player names from player data and fill roster
-    def fill_roster_with_player_names(self, season, understat):
+    # Extract player data and fill roster
+    def fill_roster_with_player_data(self, season, understat):
         player_data = self.get_player_data(season, understat)
         for player_info in player_data:
             player_name = player_info.get('player_name')
-            if player_name:
-                self.roster.add_player(Player(player_name=player_name))
+            player_id = player_info.get('id')
+            goals = float(player_info.get('goals', 0))
+            games = float(player_info.get('games', 0))
+            avg_goals = goals / games if games > 0 else 0.0
+
+            avg_xg = float(player_info.get('xG', 0)) / games if games > 0 else 0.0
+            avg_shots = float(player_info.get('shots', 0)) / games if games > 0 else 0.0
+            avg_yellow_cards = float(player_info.get('yellow_cards', 0)) / games if games > 0 else 0.0
+            avg_red_cards = float(player_info.get('red_cards', 0)) / games if games > 0 else 0.0
+            position = player_info.get('position', "")
+
+            if player_name and player_id:
+                self.roster.add_player(Player(
+                    player_name=player_name,
+                    player_id=player_id,
+                    avg_goals=avg_goals,
+                    avg_xg=avg_xg,
+                    avg_shots=avg_shots,
+                    avg_yellow_cards=avg_yellow_cards,
+                    avg_red_cards=avg_red_cards,
+                    position=position
+                ))
 
 # Define specific team classes
 class Liverpool(Team):
@@ -151,17 +175,18 @@ def main():
     print(f"Last Season Avg xG: {chelsea.last_season_avg_xg:.2f}")
     print(f"Total Avg xG: {chelsea.total_avg_xg:.2f}")
 
-    # Fetch and print roster player names for Liverpool and Chelsea
+    # Fetch and print roster player data for Liverpool and Chelsea
     print("\nFetching rosters for Liverpool and Chelsea...")
-    liverpool.fill_roster_with_player_names(current_season, understat)
-    chelsea.fill_roster_with_player_names(current_season, understat)
+    liverpool.fill_roster_with_player_data(current_season, understat)
+    chelsea.fill_roster_with_player_data(current_season, understat)
 
     print("\nLiverpool Roster:")
     for player in liverpool.roster.players:
-        print(player.player_name)
+        print(f"ID: {player.player_id}, Name: {player.player_name}, Avg Goals: {player.avg_goals:.2f}, Avg xG: {player.avg_xg:.2f}, Position: {player.position}, Yellow Cards/Game: {player.avg_yellow_cards:.2f}, Red Cards/Game: {player.avg_red_cards:.2f}")
 
     print("\nChelsea Roster:")
     for player in chelsea.roster.players:
-        print(player.player_name)
+        print(f"ID: {player.player_id}, Name: {player.player_name}, Avg Goals: {player.avg_goals:.2f}, Avg xG: {player.avg_xg:.2f}, Position: {player.position}, Yellow Cards/Game: {player.avg_yellow_cards:.2f}, Red Cards/Game: {player.avg_red_cards:.2f}")
+
 if __name__ == "__main__":
     main()
