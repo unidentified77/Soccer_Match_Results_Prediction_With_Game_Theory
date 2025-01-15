@@ -457,9 +457,11 @@ def main():
     print(f"Intercept: {away_intercept}")
 
 
-    # Example: Calculate team power for a given match
-    example_home_stats = [27, 10, 13, 5.4444, 0.628, 0.2154]  # Example for Arsenal's home match
-    example_away_stats = [6, 6, 2, 13.5455, 0.2154, 0.5531]  # Example for Leicester's away match
+    # Example: Calculate team power for a given match ----- To fill this first run calculate_team_features_for_team_power.py, dont forget to change the teams
+    #home_shots, home_shots_on_target, home_deep, home_ppda, home_win_chances, home_draw_chances]
+    example_home_stats = [16.2, 6.8, 10.8, 9.7, 0.68, 0.18]  # Example for Arsenal's home match
+    # away_shots, away_shots_on_target, away_deep, away_ppda, home_draw_chances, home_loss_chances
+    example_away_stats = [15, 5.4, 11, 9.8, 0.2, 0.44]  # Example for Leicester's away match
     
     home_power, away_power = calculate_team_power(example_home_stats, example_away_stats, 
                                                   home_coefficients, home_intercept,
