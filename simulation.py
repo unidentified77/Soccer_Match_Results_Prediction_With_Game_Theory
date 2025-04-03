@@ -1,4 +1,10 @@
+import pandas as pd
 import random
+from tactics import determine_team_play_style  # Make sure this is the correct import
+from team_power import Team, fill_all_stats
+from utils import UnderstatClient
+
+SEASON    = 2024
 
 # Payoff matrix for strategy choices
 PAYOFF_MATRIX = {
@@ -34,7 +40,8 @@ STYLE_PROBABILITIES = {
     "Overload Midfield": (0.30, 0.50, 0.20),
     "Slow Build Up": (0.25, 0.55, 0.20),
     "Direct Counter": (0.50, 0.25, 0.25),
-    "Clinical Finishing": (0.50, 0.30, 0.20)
+    "Clinical Finishing": (0.50, 0.30, 0.20),
+    "Balanced": (0.33, 0.33, 0.33)
 }
 
 def adjust_probabilities(base_probs, power_difference):
@@ -86,8 +93,52 @@ def simulate_100_matches(home_team_style, away_team_style, home_power, away_powe
     
     return home_goals_total / 100, away_goals_total / 100
 
-# Example run  
-home_style, away_style = "High Press", "Counter Attack"
-home_power, away_power = 12, 8  # Example team strengths
-avg_home_goals, avg_away_goals = simulate_100_matches(home_style, away_style, home_power, away_power)
-print(f"Predicted Score: Home {avg_home_goals:.1f} - Away {avg_away_goals:.1f}")
+# Function to load Excel file
+def load_excel_file(file_path):
+    return pd.read_excel(file_path)
+
+# Function to update the Excel file with predicted scores
+def update_excel_with_predictions(df, home_col='Home Team', away_col='Away Team', home_power_col='Home Power', away_power_col='Away Power', predicted_score_col='Predicted Score'):
+    # Add a new column for predicted score simulation
+    predicted_scores = []
+
+    for index, row in df.iterrows():
+        home_team_name = row[home_col]
+        away_team_name = row[away_col]
+        home_team_power = row[home_power_col]
+        away_team_power = row[away_power_col]
+
+        with UnderstatClient() as understat:
+            home_team = Team(name=home_team_name, short_title=home_team_name[:3].upper())
+            away_team = Team(name=away_team_name, short_title=away_team_name[:3].upper())
+            
+            # fill stats
+            fill_all_stats(home_team, current_season=str(SEASON), last_season=str(SEASON-1), all_seasons=[str(SEASON-1), str(SEASON)], understat=understat)
+            fill_all_stats(away_team, current_season=str(SEASON), last_season=str(SEASON-1), all_seasons=[str(SEASON-1), str(SEASON)], understat=understat)
+
+            # Fetch team styles dynamically
+            home_team_style = determine_team_play_style(home_team)
+            away_team_style = determine_team_play_style(away_team)
+
+        # Simulate the match
+        avg_home_goals, avg_away_goals = simulate_100_matches(home_team_style, away_team_style, home_team_power, away_team_power)
+
+        # Append the result as a string "HomeGoals-AwayGoals"
+        predicted_scores.append(f"{avg_home_goals:.1f}-{avg_away_goals:.1f}")
+        print(predicted_scores)
+    # Add the predicted scores to the DataFrame
+    df[predicted_score_col] = predicted_scores
+
+    return df
+
+# Example of how to run the update function
+file_path = "fixtures_events_with_team_power_and_score.xlsx"
+df = load_excel_file(file_path)
+
+# Update the Excel file with predicted scores from simulation
+df = update_excel_with_predictions(df)
+
+# Save the updated DataFrame back to Excel
+df.to_excel("updated_predictions.xlsx", index=False)
+
+print("Excel file updated with predicted scores!")

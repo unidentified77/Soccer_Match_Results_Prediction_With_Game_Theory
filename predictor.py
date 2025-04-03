@@ -26,6 +26,7 @@ API_HEADERS = {
 LEAGUE_ID = 39
 SEASON    = 2024
 
+POISSON_SCALE = 0.25
 # Lower synergy weight or let synergy remain the same; you can do more advanced synergy logic if you want.
 
 DEBUG = True
