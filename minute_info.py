@@ -1,11 +1,11 @@
 import requests
 import pandas as pd
 from datetime import date, timedelta
-from predictor import Team, fill_all_stats, adjust_team_power_with_bonus, poisson_pmf, predict_score_poisson
+from team_power import fill_all_stats
+from predictor import Team, adjust_team_power_with_bonus, poisson_pmf, predict_score_poisson
 from utils import UnderstatClient
 from team_power import Team, fill_all_stats
-from tactics import determine_team_formation, determine_team_play_style
-from gametheory import synergy_from_formation_style, calculate_combination_percentages
+from synergycheck import synergy_from_formation_style
 
 # API Configuration
 BASE_URL = "https://v3.football.api-sports.io"
