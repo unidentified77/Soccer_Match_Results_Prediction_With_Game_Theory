@@ -11,15 +11,15 @@ API_HEADERS = {
 
 # Payoff matrix for strategy choices
 PAYOFF_MATRIX = {
-    ('attack', 'attack'): (0.03, 0.03),
-    ('attack', 'balance'): (0.05, 0.02),
-    ('attack', 'defense'): (0.07, 0.01),
-    ('balance', 'attack'): (0.02, 0.05),
-    ('balance', 'balance'): (0.02, 0.02),
-    ('balance', 'defense'): (0.04, 0.01),
-    ('defense', 'attack'): (0.01, 0.07),
-    ('defense', 'balance'): (0.01, 0.04),
-    ('defense', 'defense'): (0.01, 0.01)
+    ('attack', 'attack'): (0.0186, 0.0042),
+    ('attack', 'balance'): (0.0231, 0.0131),
+    ('attack', 'defense'): (0.0664, 0.0188),
+    ('balance', 'attack'): (0.0012, 0.0213),
+    ('balance', 'balance'): (0.0235, 0.0004),
+    ('balance', 'defense'): (0.0114, 0.0096),
+    ('defense', 'attack'): (0.0036, 0.0683),
+    ('defense', 'balance'): (0.0061, 0.0105),
+    ('defense', 'defense'): (0.0437, 0.0013)
 }
 
 # Style-based strategy probabilities
@@ -122,9 +122,9 @@ def live_simulation(fixture_id, home_team_power, away_team_power, home_style, aw
         current_minute += 5
 
 # Run the live simulation
-fixture_id = 1208312
-home_team_power = 15
-away_team_power = 10
+fixture_id = 1035037
+home_team_power = 1273
+away_team_power = 1407
 home_style = "Counter Attack"
 away_style = "Possession Based"
 
