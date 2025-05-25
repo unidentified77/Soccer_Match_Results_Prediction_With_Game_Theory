@@ -1,7 +1,7 @@
 # tactics.py
 
 import pandas as pd
-from gametheory import synergy_from_formation_style, calculate_combination_percentages
+from synergycheck import synergy_from_formation_style, calculate_combination_percentages
 
 # === Formation Determination Functions ===
 
