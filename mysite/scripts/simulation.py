@@ -8,15 +8,15 @@ SEASON    = 2024
 
 # Payoff matrix for strategy choices
 PAYOFF_MATRIX = {
-    ('attack', 'attack'): (0.03, 0.03),
-    ('attack', 'balance'): (0.05, 0.02),
-    ('attack', 'defense'): (0.07, 0.01),
-    ('balance', 'attack'): (0.02, 0.05),
-    ('balance', 'balance'): (0.02, 0.02),
-    ('balance', 'defense'): (0.04, 0.01),
-    ('defense', 'attack'): (0.01, 0.07),
-    ('defense', 'balance'): (0.01, 0.04),
-    ('defense', 'defense'): (0.01, 0.01)
+    ('attack', 'attack'): (0.0186, 0.0042),
+    ('attack', 'balance'): (0.0231, 0.0131),
+    ('attack', 'defense'): (0.0664, 0.0188),
+    ('balance', 'attack'): (0.0012, 0.0213),
+    ('balance', 'balance'): (0.0235, 0.0004),
+    ('balance', 'defense'): (0.0114, 0.0096),
+    ('defense', 'attack'): (0.0036, 0.0683),
+    ('defense', 'balance'): (0.0061, 0.0105),
+    ('defense', 'defense'): (0.0437, 0.0013)
 }
 
 # Style-based base probabilities
@@ -98,7 +98,7 @@ def load_excel_file(file_path):
     return pd.read_excel(file_path)
 
 # Function to update the Excel file with predicted scores
-def update_excel_with_predictions(df, home_col='Home Team', away_col='Away Team', home_power_col='Home Power', away_power_col='Away Power', predicted_score_col='Predicted Score'):
+def update_excel_with_predictions(df, home_col='Home_Team', away_col='Away_Team', home_power_col='Home_Power', away_power_col='Away_Power', predicted_score_col='Predicted_Score'):
     # Add a new column for predicted score simulation
     predicted_scores = []
 
@@ -132,13 +132,13 @@ def update_excel_with_predictions(df, home_col='Home Team', away_col='Away Team'
     return df
 
 # Example of how to run the update function
-file_path = "fixtures_events_with_team_power_and_score.xlsx"
+file_path = "updated_predictions.xlsx"
 df = load_excel_file(file_path)
 
 # Update the Excel file with predicted scores from simulation
 df = update_excel_with_predictions(df)
 
 # Save the updated DataFrame back to Excel
-df.to_excel("updated_predictions.xlsx", index=False)
+df.to_excel("updated_predictions2.xlsx", index=False)
 
 print("Excel file updated with predicted scores!")

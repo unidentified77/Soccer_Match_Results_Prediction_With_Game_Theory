@@ -8,14 +8,8 @@ from datetime import date, timedelta, datetime
 
 from team_power import Team, fill_all_stats
 from tactics import determine_team_formation, determine_team_play_style
-from gametheory import synergy_from_formation_style, calculate_combination_percentages
-from api_football_features import (
-    fetch_injuries,
-    fetch_lineup_strength,
-    fetch_odds,
-    fetch_team_standing,
-    fetch_rest_days
-)
+from synergycheck import synergy_from_formation_style, calculate_combination_percentages
+
 from utils import UnderstatClient
 
 BASE_URL = "https://v3.football.api-sports.io"
