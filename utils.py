@@ -52,12 +52,6 @@ def _slow_session() -> requests.Session:
 _FBref_orig = sd.FBref
 
 def _FBref_patched(*args, **kw):
-    """
-    • `sleep_time` varsayılanı 1.2 sn  
-    • Tüm isteklerde ortak Session (retry’li)
-    """
-    kw.setdefault("sleep_time", 1.2)
-    kw.setdefault("session", _slow_session())
     return _FBref_orig(*args, **kw)
 
 sd.FBref = _FBref_patched      # 🔥 monkey-patch
