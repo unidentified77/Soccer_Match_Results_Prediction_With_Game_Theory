@@ -39,7 +39,7 @@ from understat_fetch_functions import (
 )
 
 # --- IMPORT API‑FOOTBALL FUNCTIONS ---
-from api_sports_fetch_functions import (
+from dataFetch.apiSportsFetchFunctions import (
     fetch_team_lineups,
     fetch_player_injuries,
     fetch_player_statistics

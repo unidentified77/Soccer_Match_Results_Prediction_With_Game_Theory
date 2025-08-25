@@ -63,6 +63,7 @@ def normalize_understat_record(rec: dict) -> dict:
             minutes = 0
         normalized["clean_sheet"] = 1.0 if minutes >= 90 else 0.0
     return normalized
+
 def fetch_recent_stats_fixed(understat, player_name: str, team: str, season: str, last_n: int = 5) -> list:
     """
     Improved version: iterate over matches in reverse order (most recent first)
