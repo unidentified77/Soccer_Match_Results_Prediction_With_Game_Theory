@@ -522,17 +522,6 @@ def fetch_team_cards(team_id, season):
     return data  # Caller extracts card details
 
 
-# 50. Fetch player injuries.
-def fetch_player_injuries(player_id, season):
-    """
-    Fetch injury data for a player.
-    Endpoint: /injuries?player={player_id}&season={season}
-    """
-    url = f"{API_BASE_URL}/injuries?player={player_id}&season={season}"
-    response = requests.get(url, headers=HEADERS)
-    return response.json()
-
-
 # -----------------------------
 # Main block: Sample calls for demonstration.
 # -----------------------------
